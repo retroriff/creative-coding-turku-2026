@@ -20,5 +20,7 @@ No packages or build step are needed. The page loads Hydra and CodeMirror from t
 - `index.html`: visible event details and the Hydra code shown on the flyer.
 - `app.js`: Hydra code that generates the animation. If you change the animation, update the visible code in `index.html` to match.
 - `styles.css`: layout and mobile styling.
+- `og-image.jpg`: social preview image linked from the Open Graph and Twitter metadata in `index.html`.
+- `og-card.html` and `og-background.png`: the editable layout and Hydra background used to make the social preview image.
 
 Pushing changes to the `main` branch automatically updates the GitHub Pages site through GitHub Actions.
