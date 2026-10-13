@@ -24,6 +24,10 @@ body {
   position: relative;
   z-index: 1;
   width: 100%;
+  min-height: calc(100vh - 30px);
+  min-height: calc(100dvh - 30px);
+  display: flex;
+  flex-direction: column;
 }
 
 #source {
@@ -46,6 +50,10 @@ body {
   font: 18px/1.4 monospace;
 }
 
+.cm-s-tomorrow-night-eighties .CodeMirror-line > span {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
 .CodeMirror pre.CodeMirror-line:has(.cm-comment) {
   font-size: clamp(12px, 4.2vw, 40px) !important;
   line-height: 1.35 !important;
@@ -57,7 +65,8 @@ body {
 }
 
 .source-link {
-  margin: 8px 4px 16px;
+  margin: auto 4px 0;
+  padding-top: 16px;
   font: 18px/1.4 monospace;
 }
 
@@ -77,6 +86,11 @@ body {
     padding: 8px;
   }
 
+  .editor-container {
+    min-height: calc(100vh - 16px);
+    min-height: calc(100dvh - 16px);
+  }
+
   .CodeMirror {
     width: calc(100dvw - 16px) !important;
     max-width: calc(100dvw - 16px) !important;
@@ -94,7 +108,7 @@ body {
   }
 
   .CodeMirror pre.CodeMirror-line:has(.cm-comment) {
-    font-size: clamp(17px, 5.5vw, 40px) !important;
+    font-size: clamp(17px, 6vw, 40px) !important;
   }
 
   .source-link {
