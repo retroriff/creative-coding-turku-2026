@@ -3,48 +3,49 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#07101b">
+    <meta name="theme-color" content="#000000">
     <meta name="description" content="Creative Coding Finland — Turku Meetup. La 14.11.2026 | klo 14–20. Fuusio, Humalistonkatu 8 A, Turku.">
     <title>Creative Coding Finland / Turku Meetup</title>
+    <link rel="stylesheet" href="https://unpkg.com/codemirror@5.65.16/lib/codemirror.css">
+    <link rel="stylesheet" href="https://unpkg.com/codemirror@5.65.16/theme/tomorrow-night-eighties.css">
     <link rel="stylesheet" href="styles.css">
     <script src="https://unpkg.com/hydra-synth" defer></script>
+    <script src="https://unpkg.com/codemirror@5.65.16/lib/codemirror.js" defer></script>
+    <script src="https://unpkg.com/codemirror@5.65.16/mode/javascript/javascript.js" defer></script>
     <script src="app.js" defer></script>
   </head>
   <body>
     <canvas id="hydra-canvas" aria-hidden="true"></canvas>
-    <main class="flyer">
-      <header class="event">
-        <p class="eyebrow">Creative Coding Finland</p>
-        <h1>Turku<br>Meetup</h1>
-        <div class="event-details">
-          <p>La 14.11.2026 <span aria-hidden="true">|</span> klo 14–20</p>
-          <p>Fuusio</p>
-          <p>Humalistonkatu 8 A, Turku</p>
-          <p>Sisäänkäynti sisäpihan kautta</p>
-        </div>
-      </header>
-      <section class="code" aria-labelledby="code-title">
-        <h2 id="code-title">Hydra</h2>
-        <pre><code>osc(42, 0.025, 0)
-  .modulate(noise(2.4, 0.12), 0.18)
-  .rotate(-0.35, 0.009)
-  .color(0.15, 1.255, 1.1)
-  .add(osc(21, -0.018, 0)
-    .rotate(0.9)
-    .modulate(noise(3, 0.118), 0.137)
-    .color(0.75, 0.12, 0.8), 0.35)
-  .mult(gradient(0.213)
-    .color(0.6, 0.6, 0.8))
-  .brightness(-0.176)
-  .saturate(0)
-  .contrast(2)
-  .brightness(0.5)
-  .color(0.18, 0.46, 1)
-  .layer(src(s0))
-  .out(o0);
+    <main class="editor-container" aria-label="Creative Coding Finland / Turku Meetup">
+      <textarea id="source" aria-label="Codi Hydra del flyer" readonly>
+// CREATIVE CODING FINLAND
+// TURKU MEETUP
 
-render(o0);</code></pre>
-      </section>
+// La 14.11.2026 | klo 14–20
+// Fuusio
+
+// Humalistonkatu 8 A, Turku
+// Sisäänkäynti sisäpihan kautta
+
+
+osc(42, 0.025, 0)
+	.modulate(noise(2.4, 0.12), 0.18)
+	.rotate(-0.35, 0.009)
+	.color(0.15, 1.255, 1.1)
+	.add(osc(21, -0.018, 0)
+		.rotate(0.9)
+		.modulate(noise(3, 0.118), 0.137)
+		.color(0.75, 0.12, 0.8), 0.35)
+	.mult(gradient(0.213)
+		.color(0.6, 0.6, 0.8))
+	.brightness(-0.176)
+	.saturate(0)
+	.contrast(2)
+	.brightness(0.5)
+	.color(0.18, 0.46, 1)
+	.layer(src(s0))
+	.out(o0);
+render(o0);</textarea>
     </main>
   </body>
 </html>

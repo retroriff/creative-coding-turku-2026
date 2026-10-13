@@ -1,7 +1,23 @@
 const canvas = document.getElementById('hydra-canvas');
 
+if (typeof CodeMirror === 'function') {
+  CodeMirror.fromTextArea(document.getElementById('source'), {
+    mode: 'javascript',
+    theme: 'tomorrow-night-eighties',
+    lineWrapping: true,
+    readOnly: true,
+    viewportMargin: Infinity,
+    tabSize: 2
+  });
+}
+
 if (typeof Hydra === 'function') {
-  new Hydra({ canvas, detectAudio: false });
+  new Hydra({
+    canvas,
+    width: window.innerWidth,
+    height: window.innerHeight,
+    detectAudio: false
+  });
 
   osc(42, 0.025, 0)
     .modulate(noise(2.4, 0.12), 0.18)
