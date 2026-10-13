@@ -12,11 +12,24 @@ if (typeof CodeMirror === 'function') {
 }
 
 if (typeof Hydra === 'function') {
-  new Hydra({
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
+  canvas.width = viewportWidth;
+  canvas.height = viewportHeight;
+
+  const hydra = new Hydra({
     canvas,
-    width: window.innerWidth,
-    height: window.innerHeight,
+    width: viewportWidth,
+    height: viewportHeight,
     detectAudio: false
+  });
+
+  window.addEventListener('resize', () => {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    if (width !== canvas.width || height !== canvas.height) {
+      hydra.setResolution(width, height);
+    }
   });
 
   osc(42, 0.025, 0)
@@ -28,7 +41,8 @@ if (typeof Hydra === 'function') {
       .modulate(noise(3, 0.118), 0.137)
       .color(0.75, 0.12, 0.8), 0.35)
     .mult(gradient(0.213)
-      .color(0.6, 0.6, 0.8))
+      .color(0.6, 0.6, 0.8)
+      .add(solid(0.25, 0.25, 0.25)))
     .brightness(-0.176)
     .saturate(0)
     .contrast(2)
