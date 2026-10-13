@@ -1,24 +1,24 @@
 # Creative Coding Finland / Turku Meetup
 
-Flyer web de l'esdeveniment del 14.11.2026 a Fuusio, Turku. La versió publicada és a [GitHub Pages](https://retroriff.github.io/creative-coding-turku-2026/).
+Web flyer for the event on 14 November 2026 at Fuusio in Turku. The published version is available on [GitHub Pages](https://retroriff.github.io/creative-coding-turku-2026/).
 
-## Executar-lo en local
+## Run locally
 
-Cal tenir Python 3. Des de la carpeta del repositori:
+You need Python 3. From the repository directory, run:
 
 ```sh
 cd ~/Sites/creative-coding-turku-2026
 python3 -m http.server 8000
 ```
 
-Obre <http://localhost:8000/> al navegador. Per aturar el servidor, prem `Ctrl+C` al terminal.
+Open <http://localhost:8000/> in your browser. Press `Ctrl+C` in the terminal to stop the server.
 
-No cal instal·lar paquets ni compilar res. La pàgina carrega Hydra i CodeMirror des d'Internet, així que cal connexió per veure l'animació i l'aspecte de l'editor.
+No packages or build step are needed. The page loads Hydra and CodeMirror from the internet, so you need a connection to see the animation and editor styling.
 
-## Modificar el flyer
+## Edit the flyer
 
-- `index.html`: text visible de l'esdeveniment i codi Hydra que es mostra al flyer.
-- `app.js`: codi Hydra que genera l'animació. Si canvies l'animació, actualitza també el codi visible a `index.html` perquè coincideixin.
-- `styles.css`: disseny i adaptació a mòbil.
+- `index.html`: visible event details and the Hydra code shown on the flyer.
+- `app.js`: Hydra code that generates the animation. If you change the animation, update the visible code in `index.html` to match.
+- `styles.css`: layout and mobile styling.
 
-En pujar els canvis a la branca `main`, GitHub Actions actualitza automàticament la pàgina de GitHub Pages.
+Pushing changes to the `main` branch automatically updates the GitHub Pages site through GitHub Actions.
