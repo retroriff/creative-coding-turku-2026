@@ -55,7 +55,7 @@ html.crystal {
   border: 0;
   outline: 0;
   background: transparent;
-  color: #ccc;
+  color: #f2f4f8;
   font: 18px/1.4 monospace;
   resize: none;
 }
@@ -63,7 +63,7 @@ html.crystal {
 .CodeMirror.cm-s-tomorrow-night-eighties {
   height: auto;
   background: transparent;
-  color: #ccc;
+  color: #f2f4f8;
   font: 18px/1.4 monospace;
 }
 
@@ -96,6 +96,40 @@ html.crystal {
   color: #78a9ff;
 }
 
+.cm-s-tomorrow-night-eighties span.cm-variable,
+.cm-s-tomorrow-night-eighties span.cm-variable-2,
+.cm-s-tomorrow-night-eighties span.cm-def {
+  color: #be95ff;
+}
+
+.cm-s-tomorrow-night-eighties span.cm-property,
+.cm-s-tomorrow-night-eighties span.cm-attribute {
+  color: #08bdba;
+}
+
+.cm-s-tomorrow-night-eighties span.cm-number,
+.cm-s-tomorrow-night-eighties span.cm-atom {
+  color: #3ddbd9;
+}
+
+.cm-s-tomorrow-night-eighties span.cm-string {
+  color: #25be6a;
+}
+
+.cm-s-tomorrow-night-eighties span.cm-keyword,
+.cm-s-tomorrow-night-eighties span.cm-operator {
+  color: #ff7eb6;
+}
+
+.cm-s-tomorrow-night-eighties span.cm-bracket {
+  color: #f2f4f8;
+}
+
+.cm-s-tomorrow-night-eighties span.cm-error {
+  background: none;
+  color: #ee5396;
+}
+
 .CodeMirror .cm-comment {
   font-size: inherit !important;
   line-height: inherit !important;
@@ -105,7 +139,7 @@ html.crystal {
   margin: auto 4px 0;
   padding-top: 16px;
   font: 18px/1.4 monospace;
-  color: #ccc;
+  color: #f2f4f8;
 }
 
 .source-link a {
