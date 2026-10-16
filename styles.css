@@ -68,6 +68,11 @@ body {
   margin: auto 4px 0;
   padding-top: 16px;
   font: 18px/1.4 monospace;
+  color: #ccc;
+}
+
+.source-link span {
+  background-color: rgba(0, 0, 0, 0.6);
 }
 
 .source-link a {

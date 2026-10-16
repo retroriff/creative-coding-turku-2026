@@ -49,7 +49,15 @@
       rel="stylesheet"
       href="https://unpkg.com/codemirror@5.65.16/theme/tomorrow-night-eighties.css"
     />
-    <link rel="stylesheet" href="styles.css?v=hydra-editor-7" />
+    <link rel="stylesheet" href="styles.css?v=hydra-editor-8" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.170.0/build/three.module.js",
+          "three/addons/": "https://unpkg.com/three@0.170.0/examples/jsm/"
+        }
+      }
+    </script>
     <script src="https://unpkg.com/hydra-synth" defer></script>
     <script
       src="https://unpkg.com/codemirror@5.65.16/lib/codemirror.js"
@@ -59,7 +67,7 @@
       src="https://unpkg.com/codemirror@5.65.16/mode/javascript/javascript.js"
       defer
     ></script>
-    <script src="app.js?v=hydra-editor-7" defer></script>
+    <script type="module" src="crystal.js?v=crystal-1"></script>
   </head>
   <body>
     <canvas id="hydra-canvas" aria-hidden="true"></canvas>
@@ -76,32 +84,34 @@
 // Humalistonkatu 8 A
 
 
-osc(42, 0.025, 0)
-	.modulate(noise(2.4, 0.12), 0.18)
-	.rotate(-0.35, 0.009)
-	.color(0.15, 1.255, 1.1)
-	.add(osc(21, -0.018, 0)
-		.rotate(0.9)
-		.modulate(noise(3, 0.118), 0.137)
-		.color(0.75, 0.12, 0.8), 0.35)
-	.mult(gradient(0.213)
-		.color(0.6, 0.6, 0.8)
-		.add(solid(0.25, 0.25, 0.25)))
-	.brightness(-0.176)
-	.saturate(0)
-	.contrast(2)
-	.brightness(0.5)
-	.color(0.18, 0.46, 1)
-	.layer(src(s0))
+crystal({
+	rotateX: 0.00,
+	rotateY: 0.00,
+	speed: 1.00,
+	hue: 0.00,
+	drift: 0.35
+});
+
+src(s0)
+	.modulate(noise(1.5, 0.1), 0.006)
+	.blend(src(o0).scale(1.004), 0.25)
+	.saturate(1.1)
 	.out(o0);
 render(o0);</textarea
       >
       <p class="source-link">
-        <a
-          href="https://hydra.ojack.xyz/?code=JTBBJTJGJTJGJTIwQ1JFQVRJVkUlMjBDT0RJTkclMjBGSU5MQU5EJTBBJTJGJTJGJTIwVFVSS1UlMjBNRUVUVVAlMEElMEElMkYlMkYlMjAxNC4xMS4yMDI2JTIwJTJGJTIwa2xvJTIwMTQlRTIlODAlOTMyMCUwQSUyRiUyRiUyMEZ1dXNpbyUwQSUyRiUyRiUyMEh1bWFsaXN0b25rYXR1JTIwOCUyMEElMEElMEElMEFvc2MoNDIlMkMlMjAwLjAyNSUyQyUyMDApJTBBJTA5Lm1vZHVsYXRlKG5vaXNlKDIuNCUyQyUyMDAuMTIpJTJDJTIwMC4xOCklMEElMDkucm90YXRlKC0wLjM1JTJDJTIwMC4wMDkpJTBBJTA5LmNvbG9yKDAuMTUlMkMlMjAxLjI1NSUyQyUyMDEuMSklMEElMDkuYWRkKG9zYygyMSUyQyUyMC0wLjAxOCUyQyUyMDApJTBBJTA5JTA5LnJvdGF0ZSgwLjkpJTBBJTA5JTA5Lm1vZHVsYXRlKG5vaXNlKDMlMkMlMjAwLjExOCklMkMlMjAwLjEzNyklMEElMDklMDkuY29sb3IoMC43NSUyQyUyMDAuMTIlMkMlMjAwLjgpJTJDJTIwMC4zNSklMEElMDkubXVsdChncmFkaWVudCgwLjIxMyklMEElMDklMDkuY29sb3IoMC42JTJDJTIwMC42JTJDJTIwMC44KSUwQSUwOSUwOS5hZGQoc29saWQoMC4yNSUyQyUyMDAuMjUlMkMlMjAwLjI1KSkpJTBBJTA5LmJyaWdodG5lc3MoLTAuMTc2KSUwQSUwOS5zYXR1cmF0ZSgwKSUwQSUwOS5jb250cmFzdCgyKSUwQSUwOS5icmlnaHRuZXNzKDAuNSklMEElMDkuY29sb3IoMC4xOCUyQyUyMDAuNDYlMkMlMjAxKSUwQSUwOS5sYXllcihzcmMoczApKSUwQSUwOS5vdXQobzApJTNCJTBBcmVuZGVyKG8wKSUzQiUwQSUwQSUwQSgoKSUyMCUzRCUzRSUyMCU3QiUwQSUyMCUyMGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdoeWRyYS1mbHllci1zdHlsZScpJTNGLnJlbW92ZSgpJTNCJTBBJTBBJTIwJTIwY29uc3QlMjBzdHlsZSUyMCUzRCUyMGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ3N0eWxlJyklM0IlMEElMjAlMjBzdHlsZS5pZCUyMCUzRCUyMCdoeWRyYS1mbHllci1zdHlsZSclM0IlMEElMEElMjAlMjBzdHlsZS50ZXh0Q29udGVudCUyMCUzRCUyMCU2MCUwQSUyMCUyMCUyMCUyMC5Db2RlTWlycm9yJTIwcHJlLkNvZGVNaXJyb3ItbGluZSUzQWhhcyguY20tY29tbWVudCklMjAlN0IlMEElMjAlMjAlMjAlMjAlMjAlMjBmb250LXNpemUlM0ElMjBjbGFtcCgxMnB4JTJDJTIwNC4ydnclMkMlMjA0MHB4KSUyMCFpbXBvcnRhbnQlM0IlMEElMjAlMjAlMjAlMjAlMjAlMjBsaW5lLWhlaWdodCUzQSUyMDEuMzUlMjAhaW1wb3J0YW50JTNCJTBBJTIwJTIwJTIwJTIwJTdEJTBBJTBBJTIwJTIwJTIwJTIwLmNtLXMtdG9tb3Jyb3ctbmlnaHQtZWlnaHRpZXMlMjAuQ29kZU1pcnJvci1saW5lJTIwJTNFJTIwc3BhbiUyMCU3QiUwQSUyMCUyMCUyMCUyMCUyMCUyMGJhY2tncm91bmQtY29sb3IlM0ElMjByZ2JhKDAlMkMlMjAwJTJDJTIwMCUyQyUyMDAuNiklM0IlMEElMjAlMjAlMjAlMjAlN0QlMEElMEElMjAlMjAlMjAlMjAuQ29kZU1pcnJvciUyMC5jbS1jb21tZW50JTIwJTdCJTBBJTIwJTIwJTIwJTIwJTIwJTIwZm9udC1zaXplJTNBJTIwaW5oZXJpdCUyMCFpbXBvcnRhbnQlM0IlMEElMjAlMjAlMjAlMjAlMjAlMjBsaW5lLWhlaWdodCUzQSUyMGluaGVyaXQlMjAhaW1wb3J0YW50JTNCJTBBJTIwJTIwJTIwJTIwJTdEJTBBJTBBJTIwJTIwJTIwJTIwJTQwbWVkaWElMjAobWF4LXdpZHRoJTNBJTIwNzAwcHgpJTIwJTdCJTBBJTIwJTIwJTIwJTIwJTIwJTIwLkNvZGVNaXJyb3IlMjBwcmUuQ29kZU1pcnJvci1saW5lJTNBaGFzKC5jbS1jb21tZW50KSUyMCU3QiUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGZvbnQtc2l6ZSUzQSUyMGNsYW1wKDE3cHglMkMlMjA2dnclMkMlMjA0MHB4KSUyMCFpbXBvcnRhbnQlM0IlMEElMjAlMjAlMjAlMjAlMjAlMjAlN0QlMEElMEElMjAlMjAlMjAlMjAlMjAlMjAuQ29kZU1pcnJvciUyMCU3QiUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHdpZHRoJTNBJTIwY2FsYygxMDBkdnclMjAtJTIwMTZweCklMjAhaW1wb3J0YW50JTNCJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwbWF4LXdpZHRoJTNBJTIwY2FsYygxMDBkdnclMjAtJTIwMTZweCklMjAhaW1wb3J0YW50JTNCJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwYm94LXNpemluZyUzQSUyMGJvcmRlci1ib3glM0IlMEElMjAlMjAlMjAlMjAlMjAlMjAlN0QlMEElMEElMjAlMjAlMjAlMjAlMjAlMjAuQ29kZU1pcnJvci1zaXplciUyMCU3QiUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMHBhZGRpbmctcmlnaHQlM0ElMjAwJTIwIWltcG9ydGFudCUzQiUwQSUyMCUyMCUyMCUyMCUyMCUyMCUyMCUyMGJvcmRlci1yaWdodC13aWR0aCUzQSUyMDAlMjAhaW1wb3J0YW50JTNCJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTdEJTBBJTBBJTIwJTIwJTIwJTIwJTIwJTIwLkNvZGVNaXJyb3IlMjBwcmUuQ29kZU1pcnJvci1saW5lJTNBbm90KCUzQWhhcyguY20tY29tbWVudCkpJTIwJTdCJTBBJTIwJTIwJTIwJTIwJTIwJTIwJTIwJTIwZm9udC1zaXplJTNBJTIwMTRweCUyMCFpbXBvcnRhbnQlM0IlMEElMjAlMjAlMjAlMjAlMjAlMjAlMjAlMjBsaW5lLWhlaWdodCUzQSUyMDEuNCUyMCFpbXBvcnRhbnQlM0IlMEElMjAlMjAlMjAlMjAlMjAlMjAlN0QlMEElMjAlMjAlMjAlMjAlN0QlMEElMjAlMjAlNjAlM0IlMEElMEElMjAlMjBkb2N1bWVudC5oZWFkLmFwcGVuZENoaWxkKHN0eWxlKSUzQiUwQSUwQSUyMCUyMHNldFRpbWVvdXQoKCklMjAlM0QlM0UlMjAlN0IlMEElMjAlMjAlMjAlMjBjb25zdCUyMGNtJTIwJTNEJTIwZG9jdW1lbnQucXVlcnlTZWxlY3RvcignLkNvZGVNaXJyb3InKSUzRi5Db2RlTWlycm9yJTNCJTBBJTIwJTIwJTIwJTIwaWYlMjAoIWNtKSUyMHJldHVybiUzQiUwQSUwQSUyMCUyMCUyMCUyMGNvbnN0JTIwbGluZXMlMjAlM0QlMjBjbS5nZXRWYWx1ZSgpLnNwbGl0KCclNUNuJyklM0IlMEElMEElMjAlMjAlMjAlMjBjb25zdCUyMHN0YXJ0JTIwJTNEJTIwbGluZXMuZmluZEluZGV4KCUwQSUyMCUyMCUyMCUyMCUyMCUyMGxpbmUlMjAlM0QlM0UlMjBsaW5lLnRyaW0oKSUyMCUzRCUzRCUzRCUyMCcoKCklMjAlM0QlM0UlMjAlN0InJTBBJTIwJTIwJTIwJTIwKSUzQiUwQSUwQSUyMCUyMCUyMCUyMGNvbnN0JTIwZW5kJTIwJTNEJTIwbGluZXMuZmluZEluZGV4KCUwQSUyMCUyMCUyMCUyMCUyMCUyMChsaW5lJTJDJTIwaW5kZXgpJTIwJTNEJTNFJTIwaW5kZXglMjAlM0UlMjBzdGFydCUyMCUyNiUyNiUyMGxpbmUudHJpbSgpJTIwJTNEJTNEJTNEJTIwJyU3RCkoKSUzQiclMEElMjAlMjAlMjAlMjApJTNCJTBBJTBBJTIwJTIwJTIwJTIwaWYlMjAoc3RhcnQlMjAlM0MlMjAwJTIwJTdDJTdDJTIwZW5kJTIwJTNDJTIwMCklMjByZXR1cm4lM0IlMEElMEElMjAlMjAlMjAlMjB3aW5kb3cuaGlkZGVuSnNNYXJrZXIlM0YuY2xlYXIoKSUzQiUwQSUwQSUyMCUyMCUyMCUyMHdpbmRvdy5oaWRkZW5Kc01hcmtlciUyMCUzRCUyMGNtLm1hcmtUZXh0KCUwQSUyMCUyMCUyMCUyMCUyMCUyMCU3QiUyMGxpbmUlM0ElMjBzdGFydCUyQyUyMGNoJTNBJTIwMCUyMCU3RCUyQyUwQSUyMCUyMCUyMCUyMCUyMCUyMCU3QiUyMGxpbmUlM0ElMjBlbmQlMkMlMjBjaCUzQSUyMGxpbmVzJTVCZW5kJTVELmxlbmd0aCUyMCU3RCUyQyUwQSUyMCUyMCUyMCUyMCUyMCUyMCU3QiUyMGNvbGxhcHNlZCUzQSUyMHRydWUlMjAlN0QlMEElMjAlMjAlMjAlMjApJTNCJTBBJTBBJTIwJTIwJTIwJTIwY20ucmVmcmVzaCgpJTNCJTBBJTIwJTIwJTdEJTJDJTIwMzAwKSUzQiUwQSU3RCkoKSUzQg%3D%3D"
-          target="_blank"
-          rel="noopener noreferrer"
-          >Made with Hydra</a
+        <span
+          >Made with
+          <a
+            href="https://hydra.ojack.xyz/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Hydra</a
+          >
+          +
+          <a href="https://threejs.org/" target="_blank" rel="noopener noreferrer"
+            >three.js</a
+          ></span
         >
       </p>
     </main>
