@@ -13,7 +13,7 @@ body {
 }
 
 html.crystal {
-  background: radial-gradient(125% 125% at 29% 12%, #2a3a9c 0%, #141b4f 50%, #070a1f 100%) fixed;
+  background: radial-gradient(125% 125% at 29% 12%, #000000 0%, #161616 50%, #333333 100%) fixed;
 }
 
 #hydra-canvas {
@@ -93,7 +93,7 @@ html.crystal {
 }
 
 .cm-s-tomorrow-night-eighties span.cm-comment {
-  color: #ff8039;
+  color: #78a9ff;
 }
 
 .CodeMirror .cm-comment {
@@ -106,10 +106,6 @@ html.crystal {
   padding-top: 16px;
   font: 18px/1.4 monospace;
   color: #ccc;
-}
-
-.source-link span {
-  background-color: rgba(0, 0, 0, 0.6);
 }
 
 .source-link a {

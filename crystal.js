@@ -125,7 +125,7 @@ const settings = {
   hue: 0,
   drift: 0.35,
   colors: palettes[0],
-  background: ['#2a3a9c', '#141b4f', '#070a1f']
+  background: ['#000000', '#161616', '#333333']
 };
 paintBackground(settings.background);
 const target = { rotateX: 0, rotateY: 0 };
