@@ -12,12 +12,29 @@ body {
   overflow-x: hidden;
 }
 
+html.crystal {
+  background: radial-gradient(125% 125% at 29% 12%, #1e0090 0%, #10003f 50%, #1c0030 100%) fixed;
+}
+
 #hydra-canvas {
   position: fixed;
   inset: 0;
   width: 100%;
   height: 100%;
   z-index: 0;
+}
+
+.crystal #hydra-canvas {
+  opacity: 0;
+  transition: opacity 0.8s ease-out;
+}
+
+.crystal #hydra-canvas.is-ready {
+  opacity: 1;
+}
+
+.js.crystal #source {
+  visibility: hidden;
 }
 
 .editor-container {

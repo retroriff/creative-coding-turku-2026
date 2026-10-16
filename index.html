@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="fi">
+<html lang="fi" class="crystal">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#10003f" />
     <meta
       name="description"
       content="Creative Coding Finland / Turku Meetup. 14.11.2026 / klo 14–20. Fuusio, Humalistonkatu 8 A, Turku."
@@ -41,6 +41,9 @@
       content="https://retroriff.github.io/creative-coding-turku-2026/og-image.jpg"
     />
     <title>Creative Coding Finland / Turku Meetup</title>
+    <script>
+      document.documentElement.classList.add('js');
+    </script>
     <link
       rel="stylesheet"
       href="https://unpkg.com/codemirror@5.65.16/lib/codemirror.css"
@@ -49,7 +52,7 @@
       rel="stylesheet"
       href="https://unpkg.com/codemirror@5.65.16/theme/tomorrow-night-eighties.css"
     />
-    <link rel="stylesheet" href="styles.css?v=hydra-editor-9" />
+    <link rel="stylesheet" href="styles.css?v=hydra-editor-10" />
     <script type="importmap">
       {
         "imports": {
@@ -58,7 +61,10 @@
         }
       }
     </script>
-    <script src="https://unpkg.com/hydra-synth" defer></script>
+    <link
+      rel="modulepreload"
+      href="https://unpkg.com/three@0.170.0/build/three.module.js"
+    />
     <script
       src="https://unpkg.com/codemirror@5.65.16/lib/codemirror.js"
       defer
@@ -71,7 +77,9 @@
       src="https://unpkg.com/codemirror@5.65.16/addon/selection/mark-selection.js"
       defer
     ></script>
-    <script type="module" src="crystal.js?v=crystal-3"></script>
+    <script src="editor.js?v=crystal-4" defer></script>
+    <script src="https://unpkg.com/hydra-synth" defer></script>
+    <script type="module" src="crystal.js?v=crystal-4"></script>
   </head>
   <body>
     <canvas id="hydra-canvas" aria-hidden="true"></canvas>

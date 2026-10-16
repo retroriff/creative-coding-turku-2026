@@ -18,7 +18,8 @@ No packages or build step are needed. The page loads Hydra, three.js and CodeMir
 ## Edit the flyer
 
 - `index.html`: visible event details and the editable code shown on the flyer. The `crystal({ ... })` values update live as you move the mouse.
-- `crystal.js`: the three.js crystal, rendered into Hydra as `s0`, plus the mouse controls and live editor.
+- `editor.js`: sets up the code editor as soon as CodeMirror loads, without waiting for Hydra and three.js.
+- `crystal.js`: the three.js crystal, rendered into Hydra as `s0`, plus the mouse controls and live code updates.
 - `waves/`: the previous Hydra-only animation, kept as a separate page at `/waves/`.
 - `styles.css`: layout and mobile styling, shared by both pages.
 - `og-image.jpg`: social preview image linked from the Open Graph and Twitter metadata in `index.html`.

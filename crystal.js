@@ -268,16 +268,7 @@ if (typeof Hydra === 'function') {
     s0.init({ src: threeCanvas, dynamic: true }, { min: 'linear', mag: 'linear' });
   });
 
-  const editor = typeof CodeMirror === 'function'
-    ? CodeMirror.fromTextArea(source, {
-      mode: 'javascript',
-      theme: 'tomorrow-night-eighties',
-      lineWrapping: true,
-      viewportMargin: Infinity,
-      tabSize: 2,
-      styleSelectedText: true
-    })
-    : null;
+  const editor = window.flyerEditor;
   const getCode = () => editor ? editor.getValue() : source.value;
   const settingPattern = /^(\s*)(rotateX|rotateY|speed|hue|drift): (-?\d*\.?\d+)(,?)\s*$/;
   let runTimer;
@@ -333,3 +324,7 @@ if (typeof Hydra === 'function') {
   source.closest('main').hidden = true;
   window.addEventListener('resize', resize);
 }
+
+requestAnimationFrame(() => requestAnimationFrame(() => {
+  document.getElementById('hydra-canvas').classList.add('is-ready');
+}));
