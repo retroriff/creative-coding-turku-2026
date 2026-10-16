@@ -3,6 +3,7 @@ import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
 
 const MORPH_SECONDS = 2.5;
 const HOLD_SECONDS = 2;
+const VIEWPORT_MARGIN = 0.05;
 const PIXEL_RATIO = Math.min(window.devicePixelRatio, 2);
 const { randFloat, clamp, smoothstep } = THREE.MathUtils;
 
@@ -182,6 +183,29 @@ const resize = () => {
 };
 resize();
 
+const bounds = new THREE.Box3();
+
+const placeCrystal = elapsed => {
+  crystal.position.set(0, 0, 0);
+  crystal.scale.setScalar(1);
+  crystal.updateMatrixWorld();
+  bounds.setFromObject(crystal, true);
+  const distance = camera.position.z - bounds.max.z;
+  const halfHeight = distance * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * (1 - VIEWPORT_MARGIN);
+  const halfWidth = halfHeight * camera.aspect;
+  const scale = Math.min(
+    1,
+    halfWidth / Math.max(-bounds.min.x, bounds.max.x),
+    halfHeight / Math.max(-bounds.min.y, bounds.max.y)
+  );
+  crystal.scale.setScalar(scale);
+  crystal.position.set(
+    clamp(Math.sin(elapsed * 0.09) * halfWidth * settings.drift, -halfWidth - bounds.min.x * scale, halfWidth - bounds.max.x * scale),
+    clamp(Math.sin(elapsed * 0.13 + 1) * halfHeight * settings.drift * 0.7, -halfHeight - bounds.min.y * scale, halfHeight - bounds.max.y * scale),
+    0
+  );
+};
+
 const clock = new THREE.Clock();
 let crystalTime = 0;
 renderer.setAnimationLoop(() => {
@@ -189,18 +213,12 @@ renderer.setAnimationLoop(() => {
   updateSettings(delta);
   crystalTime += delta * settings.speed;
   updateShape(crystalTime);
-  const elapsed = clock.elapsedTime;
-  const halfHeight = camera.position.z * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
-  crystal.position.set(
-    Math.sin(elapsed * 0.09) * halfHeight * camera.aspect * settings.drift,
-    Math.sin(elapsed * 0.13 + 1) * halfHeight * settings.drift * 0.7,
-    0
-  );
   crystal.rotation.set(
     settings.rotateX + Math.sin(crystalTime * 0.2) * 0.3,
     settings.rotateY + crystalTime * 0.15,
     0.25
   );
+  placeCrystal(clock.elapsedTime);
   cyanLight.color.setHex(0x40e0ff).offsetHSL(settings.hue, 0, 0);
   pinkLight.color.setHex(0xff40d0).offsetHSL(settings.hue, 0, 0);
   cyanLight.position.set(Math.cos(crystalTime * 0.3) * 4, 2.5, Math.sin(crystalTime * 0.3) * 4);
