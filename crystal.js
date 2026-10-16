@@ -5,7 +5,9 @@ const MORPH_SECONDS = 2.5;
 const HOLD_SECONDS = 2;
 const VIEWPORT_MARGIN = 0.05;
 const MOBILE_BREAKPOINT = 700;
-const MOBILE_TEXT_AREA = 0.34;
+const CRYSTAL_SIZE = 1.2;
+const DESKTOP_REGION = { left: 0.5, right: 1, top: 0.3, bottom: 1 };
+const MOBILE_REGION = { left: 0, right: 1, top: 0.5, bottom: 1 };
 const PIXEL_RATIO = Math.min(window.devicePixelRatio, 2);
 const { randFloat, clamp, smoothstep } = THREE.MathUtils;
 
@@ -215,24 +217,31 @@ const bounds = new THREE.Box3();
 
 const placeCrystal = elapsed => {
   crystal.position.set(0, 0, 0);
-  crystal.scale.setScalar(1);
+  crystal.scale.setScalar(CRYSTAL_SIZE);
   crystal.updateMatrixWorld();
   bounds.setFromObject(crystal, true);
   const distance = camera.position.z - bounds.max.z;
   const halfHeight = distance * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * (1 - VIEWPORT_MARGIN);
   const halfWidth = halfHeight * camera.aspect;
-  const top = window.innerWidth <= MOBILE_BREAKPOINT ? halfHeight * (1 - 2 * MOBILE_TEXT_AREA) : halfHeight;
-  const centerY = (top - halfHeight) / 2;
-  const halfRegion = (top + halfHeight) / 2;
-  const scale = Math.min(
+  const region = window.innerWidth <= MOBILE_BREAKPOINT ? MOBILE_REGION : DESKTOP_REGION;
+  const left = halfWidth * (2 * region.left - 1);
+  const right = halfWidth * (2 * region.right - 1);
+  const top = halfHeight * (1 - 2 * region.top);
+  const bottom = halfHeight * (1 - 2 * region.bottom);
+  const fit = Math.min(
     1,
-    halfWidth / Math.max(-bounds.min.x, bounds.max.x),
-    halfRegion / Math.max(-bounds.min.y, bounds.max.y)
+    (right - left) / (bounds.max.x - bounds.min.x),
+    (top - bottom) / (bounds.max.y - bounds.min.y)
   );
-  crystal.scale.setScalar(scale);
+  const place = (low, high, min, max, wave) => clamp(
+    (low + high - (min + max) * fit) / 2 + wave * (high - low) / 2 * settings.drift,
+    low - min * fit,
+    high - max * fit
+  );
+  crystal.scale.setScalar(CRYSTAL_SIZE * fit);
   crystal.position.set(
-    clamp(Math.sin(elapsed * 0.09) * halfWidth * settings.drift, -halfWidth - bounds.min.x * scale, halfWidth - bounds.max.x * scale),
-    centerY + clamp(Math.sin(elapsed * 0.13 + 1) * halfRegion * settings.drift * 0.7, -halfRegion - bounds.min.y * scale, halfRegion - bounds.max.y * scale),
+    place(left, right, bounds.min.x, bounds.max.x, Math.sin(elapsed * 0.09)),
+    place(bottom, top, bounds.min.y, bounds.max.y, Math.sin(elapsed * 0.13 + 1) * 0.7),
     0
   );
 };
