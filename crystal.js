@@ -19,7 +19,7 @@ const palettes = [
   ['#20e3b2', '#4a5cff', '#d23cff'],
   ['#ffb36b', '#ff4fa3', '#6a3dff'],
   ['#7af0ff', '#6d5bff', '#ff3ca6']
-].map(stops => stops.map(stop => new THREE.Color(stop)));
+];
 let paletteIndex = 0;
 
 const renderer = new THREE.WebGLRenderer({
@@ -82,26 +82,31 @@ const cyanLight = new THREE.PointLight(0x40e0ff, 40);
 const pinkLight = new THREE.PointLight(0xff40d0, 40);
 scene.add(cyanLight, pinkLight);
 
-const samplePalette = (palette, t) => t < 0.5
-  ? palette[0].clone().lerp(palette[1], t * 2)
-  : palette[1].clone().lerp(palette[2], t * 2 - 1);
+const samplePalette = (palette, t) => {
+  const position = t * (palette.length - 1);
+  const index = Math.min(Math.floor(position), palette.length - 2);
+  return new THREE.Color(palette[index]).lerp(new THREE.Color(palette[index + 1]), position - index);
+};
 
 const pickPalette = () => {
   paletteIndex = (paletteIndex + 1 + Math.floor(Math.random() * (palettes.length - 1))) % palettes.length;
   return palettes[paletteIndex];
 };
 
-const randomShape = () => {
-  const stretch = new THREE.Vector3(randFloat(0.8, 1.05), randFloat(1.15, 1.6), randFloat(0.8, 1.05));
+const paintShape = (positions, palette) => {
   const axis = new THREE.Vector3().randomDirection();
-  const palette = pickPalette();
   return {
-    positions: directions.map(direction => direction.clone()
-      .multiplyScalar(randFloat(0.7, 1.2))
-      .add(new THREE.Vector3().randomDirection().multiplyScalar(randFloat(0, 0.2)))
-      .multiply(stretch)),
+    positions,
     colors: directions.map(direction => samplePalette(palette, (direction.dot(axis) + 1) / 2))
   };
+};
+
+const randomShape = palette => {
+  const stretch = new THREE.Vector3(randFloat(0.8, 1.05), randFloat(1.15, 1.6), randFloat(0.8, 1.05));
+  return paintShape(directions.map(direction => direction.clone()
+    .multiplyScalar(randFloat(0.7, 1.2))
+    .add(new THREE.Vector3().randomDirection().multiplyScalar(randFloat(0, 0.2)))
+    .multiply(stretch)), palette);
 };
 
 const current = {
@@ -114,7 +119,7 @@ const snapshot = () => ({
 });
 
 const shifted = new THREE.Color();
-const settings = { rotateX: 0, rotateY: 0, speed: 1, hue: 0, drift: 0.35 };
+const settings = { rotateX: 0, rotateY: 0, speed: 1, hue: 0, drift: 0.35, colors: palettes[0] };
 const target = { rotateX: 0, rotateY: 0 };
 const written = {};
 let baseSpeed = 1;
@@ -122,12 +127,21 @@ let speedBoost = 0;
 let lastPointer;
 let writeSettings = () => {};
 
-const formatSetting = value => value.toFixed(2);
+const formatSetting = value => Array.isArray(value)
+  ? `[${value.map(color => `'${color}'`).join(', ')}]`
+  : value.toFixed(2);
+
+const isPalette = value => Array.isArray(value) && value.length >= 2 &&
+  value.every(color => typeof color === 'string' && CSS.supports('color', color));
 
 const setCrystal = params => {
   Object.entries(params).forEach(([key, value]) => {
-    if (!(key in settings) || typeof value !== 'number' || formatSetting(value) === written[key]) return;
-    if (key === 'speed') {
+    if (!(key in settings)) return;
+    if (key === 'colors' ? !isPalette(value) : typeof value !== 'number') return;
+    if (formatSetting(value) === written[key]) return;
+    if (key === 'colors') {
+      if (formatSetting(value) !== formatSetting(settings.colors)) startMorph(crystalTime, [...value]);
+    } else if (key === 'speed') {
       baseSpeed = value;
       speedBoost = 0;
     } else if (key === 'hue' || key === 'drift') {
@@ -146,13 +160,14 @@ const updateSettings = delta => {
   settings.speed = Math.max(0, baseSpeed + speedBoost);
 };
 
-let from = randomShape();
+let from = randomShape(settings.colors);
 let to = from;
 let morphStart = 0;
 
-const startMorph = now => {
+const startMorph = (now, palette) => {
   from = snapshot();
-  to = randomShape();
+  settings.colors = palette ?? pickPalette();
+  to = palette ? paintShape(from.positions, palette) : randomShape(settings.colors);
   morphStart = now;
 };
 
@@ -270,7 +285,7 @@ if (typeof Hydra === 'function') {
 
   const editor = window.flyerEditor;
   const getCode = () => editor ? editor.getValue() : source.value;
-  const settingPattern = /^(\s*)(rotateX|rotateY|speed|hue|drift): (-?\d*\.?\d+)(,?)\s*$/;
+  const settingPattern = /^(\s*)(rotateX|rotateY|speed|hue|drift|colors): (-?\d*\.?\d+|\[[^\]]*\])(,?)\s*$/;
   let runTimer;
   let editPending = false;
 
