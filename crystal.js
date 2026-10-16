@@ -4,6 +4,8 @@ import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
 const MORPH_SECONDS = 2.5;
 const HOLD_SECONDS = 2;
 const VIEWPORT_MARGIN = 0.05;
+const MOBILE_BREAKPOINT = 700;
+const MOBILE_TEXT_AREA = 0.34;
 const PIXEL_RATIO = Math.min(window.devicePixelRatio, 2);
 const { randFloat, clamp, smoothstep } = THREE.MathUtils;
 
@@ -193,15 +195,18 @@ const placeCrystal = elapsed => {
   const distance = camera.position.z - bounds.max.z;
   const halfHeight = distance * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * (1 - VIEWPORT_MARGIN);
   const halfWidth = halfHeight * camera.aspect;
+  const top = window.innerWidth <= MOBILE_BREAKPOINT ? halfHeight * (1 - 2 * MOBILE_TEXT_AREA) : halfHeight;
+  const centerY = (top - halfHeight) / 2;
+  const halfRegion = (top + halfHeight) / 2;
   const scale = Math.min(
     1,
     halfWidth / Math.max(-bounds.min.x, bounds.max.x),
-    halfHeight / Math.max(-bounds.min.y, bounds.max.y)
+    halfRegion / Math.max(-bounds.min.y, bounds.max.y)
   );
   crystal.scale.setScalar(scale);
   crystal.position.set(
     clamp(Math.sin(elapsed * 0.09) * halfWidth * settings.drift, -halfWidth - bounds.min.x * scale, halfWidth - bounds.max.x * scale),
-    clamp(Math.sin(elapsed * 0.13 + 1) * halfHeight * settings.drift * 0.7, -halfHeight - bounds.min.y * scale, halfHeight - bounds.max.y * scale),
+    centerY + clamp(Math.sin(elapsed * 0.13 + 1) * halfRegion * settings.drift * 0.7, -halfRegion - bounds.min.y * scale, halfRegion - bounds.max.y * scale),
     0
   );
 };
@@ -269,7 +274,8 @@ if (typeof Hydra === 'function') {
       theme: 'tomorrow-night-eighties',
       lineWrapping: true,
       viewportMargin: Infinity,
-      tabSize: 2
+      tabSize: 2,
+      styleSelectedText: true
     })
     : null;
   const getCode = () => editor ? editor.getValue() : source.value;

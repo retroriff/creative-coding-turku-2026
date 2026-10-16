@@ -14,7 +14,8 @@ if (typeof CodeMirror === 'function') {
     theme: 'tomorrow-night-eighties',
     lineWrapping: true,
     viewportMargin: Infinity,
-    tabSize: 2
+    tabSize: 2,
+    styleSelectedText: true
   });
 }
 

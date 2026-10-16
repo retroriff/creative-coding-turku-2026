@@ -50,8 +50,24 @@ body {
   font: 18px/1.4 monospace;
 }
 
+.CodeMirror {
+  width: fit-content;
+  max-width: 100%;
+  pointer-events: none;
+}
+
 .cm-s-tomorrow-night-eighties .CodeMirror-line > span {
   background-color: rgba(0, 0, 0, 0.6);
+  pointer-events: auto;
+}
+
+.cm-s-tomorrow-night-eighties div.CodeMirror-selected,
+.cm-s-tomorrow-night-eighties.CodeMirror-focused div.CodeMirror-selected {
+  background: transparent;
+}
+
+.CodeMirror .CodeMirror-selectedtext {
+  background-color: rgba(249, 145, 87, 0.45);
 }
 
 .CodeMirror pre.CodeMirror-line:has(.cm-comment) {

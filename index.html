@@ -49,7 +49,7 @@
       rel="stylesheet"
       href="https://unpkg.com/codemirror@5.65.16/theme/tomorrow-night-eighties.css"
     />
-    <link rel="stylesheet" href="styles.css?v=hydra-editor-8" />
+    <link rel="stylesheet" href="styles.css?v=hydra-editor-9" />
     <script type="importmap">
       {
         "imports": {
@@ -67,7 +67,11 @@
       src="https://unpkg.com/codemirror@5.65.16/mode/javascript/javascript.js"
       defer
     ></script>
-    <script type="module" src="crystal.js?v=crystal-2"></script>
+    <script
+      src="https://unpkg.com/codemirror@5.65.16/addon/selection/mark-selection.js"
+      defer
+    ></script>
+    <script type="module" src="crystal.js?v=crystal-3"></script>
   </head>
   <body>
     <canvas id="hydra-canvas" aria-hidden="true"></canvas>
