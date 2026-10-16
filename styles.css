@@ -13,7 +13,7 @@ body {
 }
 
 html.crystal {
-  background: radial-gradient(125% 125% at 29% 12%, #1e0090 0%, #10003f 50%, #1c0030 100%) fixed;
+  background: radial-gradient(125% 125% at 29% 12%, #2a3a9c 0%, #141b4f 50%, #070a1f 100%) fixed;
 }
 
 #hydra-canvas {
@@ -84,12 +84,16 @@ html.crystal {
 }
 
 .CodeMirror .CodeMirror-selectedtext {
-  background-color: rgba(249, 145, 87, 0.45);
+  background-color: rgba(255, 128, 57, 0.45);
 }
 
 .CodeMirror pre.CodeMirror-line:has(.cm-comment) {
   font-size: clamp(12px, 4.2vw, 40px) !important;
   line-height: 1.35 !important;
+}
+
+.cm-s-tomorrow-night-eighties span.cm-comment {
+  color: #ff8039;
 }
 
 .CodeMirror .cm-comment {
@@ -109,7 +113,7 @@ html.crystal {
 }
 
 .source-link a {
-  color: #f99157;
+  color: #ff8039;
   text-decoration: underline;
   text-underline-offset: 3px;
 }

@@ -29,23 +29,22 @@ const renderer = new THREE.WebGLRenderer({
 });
 renderer.setPixelRatio(PIXEL_RATIO);
 
-const makeBackground = () => {
-  const canvas = document.createElement('canvas');
-  canvas.width = canvas.height = 512;
-  const context = canvas.getContext('2d');
+const backgroundCanvas = document.createElement('canvas');
+backgroundCanvas.width = backgroundCanvas.height = 512;
+const backgroundTexture = new THREE.CanvasTexture(backgroundCanvas);
+backgroundTexture.colorSpace = THREE.SRGBColorSpace;
+
+const paintBackground = stops => {
+  const context = backgroundCanvas.getContext('2d');
   const gradient = context.createRadialGradient(150, 60, 0, 150, 60, 640);
-  gradient.addColorStop(0, '#1e0090');
-  gradient.addColorStop(0.5, '#10003f');
-  gradient.addColorStop(1, '#1c0030');
+  stops.forEach((stop, index) => gradient.addColorStop(index / (stops.length - 1), stop));
   context.fillStyle = gradient;
-  context.fillRect(0, 0, canvas.width, canvas.height);
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.colorSpace = THREE.SRGBColorSpace;
-  return texture;
+  context.fillRect(0, 0, backgroundCanvas.width, backgroundCanvas.height);
+  backgroundTexture.needsUpdate = true;
 };
 
 const scene = new THREE.Scene();
-scene.background = makeBackground();
+scene.background = backgroundTexture;
 
 const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
 
@@ -119,7 +118,16 @@ const snapshot = () => ({
 });
 
 const shifted = new THREE.Color();
-const settings = { rotateX: 0, rotateY: 0, speed: 1, hue: 0, drift: 0.35, colors: palettes[0] };
+const settings = {
+  rotateX: 0,
+  rotateY: 0,
+  speed: 1,
+  hue: 0,
+  drift: 0.35,
+  colors: palettes[0],
+  background: ['#2a3a9c', '#141b4f', '#070a1f']
+};
+paintBackground(settings.background);
 const target = { rotateX: 0, rotateY: 0 };
 const written = {};
 let baseSpeed = 1;
@@ -137,10 +145,13 @@ const isPalette = value => Array.isArray(value) && value.length >= 2 &&
 const setCrystal = params => {
   Object.entries(params).forEach(([key, value]) => {
     if (!(key in settings)) return;
-    if (key === 'colors' ? !isPalette(value) : typeof value !== 'number') return;
+    if (Array.isArray(settings[key]) ? !isPalette(value) : typeof value !== 'number') return;
     if (formatSetting(value) === written[key]) return;
     if (key === 'colors') {
       if (formatSetting(value) !== formatSetting(settings.colors)) startMorph(crystalTime, [...value]);
+    } else if (key === 'background') {
+      settings.background = [...value];
+      paintBackground(settings.background);
     } else if (key === 'speed') {
       baseSpeed = value;
       speedBoost = 0;
@@ -285,7 +296,7 @@ if (typeof Hydra === 'function') {
 
   const editor = window.flyerEditor;
   const getCode = () => editor ? editor.getValue() : source.value;
-  const settingPattern = /^(\s*)(rotateX|rotateY|speed|hue|drift|colors): (-?\d*\.?\d+|\[[^\]]*\])(,?)\s*$/;
+  const settingPattern = /^(\s*)(rotateX|rotateY|speed|hue|drift|colors|background): (-?\d*\.?\d+|\[[^\]]*\])(,?)\s*$/;
   let runTimer;
   let editPending = false;
 
